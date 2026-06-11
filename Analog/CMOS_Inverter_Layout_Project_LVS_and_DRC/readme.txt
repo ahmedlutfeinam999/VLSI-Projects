@@ -58,7 +58,7 @@ report
 This folder contains the editable project report.
 
 File included:
-CMOS_Inverter_Layout_Project_Report.docx
+CMOS_Inverter_Layout_Project_Report.pdf
 
 The report explains the complete project flow, including schematic creation, layout design, body contacts, DRC, LVS, simulation result, and the issues faced during the project.
 
