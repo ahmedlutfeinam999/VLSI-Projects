@@ -305,14 +305,6 @@ The simulation will generate or update the `.raw` and `.log` files.
 
 ---
 
-## Author
-
-**Abdullah Al Zayed**  
-Electrical and Electronic Engineering  
-Analog IC Design / VLSI Learning Project
-
----
-
 ## Notes
 
 This project is intended for learning and reference purposes.  
