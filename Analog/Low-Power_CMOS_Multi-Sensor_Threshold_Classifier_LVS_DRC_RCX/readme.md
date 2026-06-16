@@ -12,19 +12,6 @@ This repository contains the Cadence Virtuoso design files, simulation screensho
 
 The project demonstrates a complete transistor-level VLSI design flow: schematic design, symbol/testbench creation, DC and transient simulation, layout design, DRC correction, LVS verification, RCX/parasitic extraction, and power analysis.
 
-## Verification Badges
-
-| Badge | Meaning |
-|---|---|
-| `Tool` | Project designed using Cadence Virtuoso |
-| `PDK` | Implemented using GPDK 90 nm CMOS technology |
-| `DRC` | Final layout passed Design Rule Check |
-| `LVS` | Layout matched the schematic |
-| `RCX` | Parasitic extraction completed successfully |
-| `Status` | Project flow completed |
-| `Avg Power` | Average transient power from VDD current measurement |
-
-
 ---
 
 ## Project Overview
