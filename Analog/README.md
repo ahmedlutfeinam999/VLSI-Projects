@@ -70,17 +70,11 @@ Three select inputs, `S2`, `S1`, and `S0`, route one analog input `VIN` to exact
 
 ## Architecture
 
-```text
-VIN
- |
- I0 (S2)
- |-------------------|
-I1 (S1)            I2 (S1)
-|------|            |------|
-I3    I4            I5    I6   (S0)
-| |    | |           | |    | |
-Y0 Y1  Y2 Y3         Y4 Y5  Y6 Y7
-```
+<div align="center">
+  <img src="./assets/demux_1to8_architecture.svg" alt="Hierarchical 1 to 8 analog demultiplexer architecture" width="950">
+</div>
+
+The diagram above shows the full **1 → 2 → 4 → 8** hierarchy. `I0` is controlled by `S2`, `I1` and `I2` are controlled by `S1`, and `I3` to `I6` are controlled by `S0`. This is why cascading **seven 1:2 DEMUX cells** produces the final **1:8 analog DEMUX**.
 
 - **7 × 1:2 DEMUX cells**
 - **14 transmission gates**
