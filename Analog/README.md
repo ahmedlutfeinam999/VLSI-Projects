@@ -68,19 +68,6 @@ This project implements a **1:8 analog demultiplexer** in Cadence Virtuoso using
 
 Three select inputs, `S2`, `S1`, and `S0`, route one analog input `VIN` to exactly one of eight outputs `Y0`–`Y7`. External `0 V / 2 V` logic is behaviorally converted to complementary `±4 V` transmission-gate controls.
 
-## Architecture
-
-<div align="center">
-  <img src="./assets/demux_1to8_architecture.svg" alt="Hierarchical 1 to 8 analog demultiplexer architecture" width="950">
-</div>
-
-The diagram above shows the full **1 → 2 → 4 → 8** hierarchy. `I0` is controlled by `S2`, `I1` and `I2` are controlled by `S1`, and `I3` to `I6` are controlled by `S0`. This is why cascading **seven 1:2 DEMUX cells** produces the final **1:8 analog DEMUX**.
-
-- **7 × 1:2 DEMUX cells**
-- **14 transmission gates**
-- **28 MOSFETs total**
-- **3 transmission gates in every selected analog path**
-
 ## Main Verification Results
 
 | Criterion | Requirement | Achieved |
