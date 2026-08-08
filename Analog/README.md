@@ -2,7 +2,7 @@
 
 # Analog & VLSI Circuit Design Projects
 
-### Transistor Characterization • Analog Circuit Design • Reference Circuit Design • CMOS Layout Verification • Multi-Sensor CMOS Classification
+### Analog Switching • Low-Power CMOS Classification • Transistor Characterization • Analog Circuit Design • Reference Circuit Design • CMOS Layout Verification
 
 ![Cadence Virtuoso](https://img.shields.io/badge/Cadence-Virtuoso-blue?style=for-the-badge)
 ![LTspice](https://img.shields.io/badge/LTspice-Simulation-red?style=for-the-badge)
@@ -17,9 +17,24 @@
 
 ## Project Overview
 
-This repository contains a collection of five Analog IC and VLSI design projects. The projects cover the complete learning path from MOSFET model characterization to analog circuit simulation, reference voltage generation, custom CMOS layout verification, and a layout-verified multi-sensor CMOS threshold-classification circuit.
+This repository contains a collection of **six Analog IC and VLSI design projects**. The projects cover analog switching with CMOS transmission gates, low-power transistor-level classification, MOSFET characterization, analog signal processing, bandgap reference design, and custom CMOS layout verification.
 
-The main objective of this repository is to document practical circuit-design work using industry-style EDA tools such as Cadence Virtuoso, LTspice, gpdk090 PDK, TSMC 180nm models, Spectre/ADE simulation, ViVA waveform analysis, and Assura DRC/LVS/RCX verification.
+The main objective of this repository is to document practical circuit-design work using industry-style EDA tools such as **Cadence Virtuoso, LTspice, gpdk090 PDK, TSMC 180nm models, Spectre/ADE, ViVA, and Assura DRC/LVS/RCX**.
+
+---
+
+## Quick Navigation
+
+<div align="center">
+
+[![01 DEMUX](https://img.shields.io/badge/01-1%3A8%20ANALOG%20DEMUX-00B8D9?style=for-the-badge)](#project-01-demux)
+[![02 Classifier](https://img.shields.io/badge/02-LOW--POWER%20CMOS%20CLASSIFIER-7B2CBF?style=for-the-badge)](#project-02-classifier)
+[![03 MOSFET](https://img.shields.io/badge/03-MOSFET%20CHARACTERIZATION-2E8B57?style=for-the-badge)](#project-03-mosfet)
+[![04 Phase](https://img.shields.io/badge/04-PHASE%20SHIFTER-E63946?style=for-the-badge)](#project-04-phase)
+[![05 Bandgap](https://img.shields.io/badge/05-BANDGAP%20REFERENCE-F4A261?style=for-the-badge)](#project-05-bandgap)
+[![06 Layout](https://img.shields.io/badge/06-CMOS%20INVERTER%20LAYOUT-5A189A?style=for-the-badge)](#project-06-inverter)
+
+</div>
 
 ---
 
@@ -27,177 +42,78 @@ The main objective of this repository is to document practical circuit-design wo
 
 | No. | Project | Design Area | Tools / Technology | Main Outcome |
 | --- | --- | --- | --- | --- |
-| 01 | MOSFET Characterization Suite | Device characterization | LTspice 26, TSMC 180nm BSIM3 | NMOS/PMOS Id, gm, gm/Id and small-signal behavior analyzed |
-| 02 | Voltage-Controlled Phase Shifter | Analog signal processing | Cadence Virtuoso, gpdk090 nmos1v | Positive phase shift from about 1.18° to 90.66° at 10 kHz |
-| 03 | Bandgap Reference Circuit | Analog reference design | Cadence Virtuoso, gpdk090 | 1.45 V reference with about 14.2 ppm/°C temperature coefficient |
-| 04 | CMOS Inverter Layout | Physical layout verification | Cadence Virtuoso Layout Suite, gpdk090, Assura | Custom layout passed DRC and LVS verification |
-| 05 | Low-Power CMOS Multi-Sensor Threshold Classifier | Mixed-signal / VLSI decision circuit | Cadence Virtuoso, gpdk090, Assura DRC/LVS/RCX | Weighted CMOS classifier completed with DRC, LVS, RCX and 105.4 µW average transient power |
+| 01 | [**1:8 Analog Demultiplexer**](#project-01-demux) | Analog switching / hierarchical CMOS | Cadence Virtuoso, gpdk090, Spectre/ADE, ViVA | 7-cell transmission-gate tree; all 8 routes verified; 24.51 Ω worst-case ON resistance |
+| 02 | [**Low-Power CMOS Multi-Sensor Threshold Classifier**](#project-02-classifier) | Mixed-signal / VLSI decision circuit | Cadence Virtuoso, gpdk090, Assura DRC/LVS/RCX | Weighted CMOS classifier completed with DRC, LVS, RCX and 105.4 µW average transient power |
+| 03 | [**MOSFET Characterization Suite**](#project-03-mosfet) | Device characterization | LTspice 26, TSMC 180nm BSIM3 | NMOS/PMOS Id, gm, gm/Id and small-signal behavior analyzed |
+| 04 | [**Voltage-Controlled Phase Shifter**](#project-04-phase) | Analog signal processing | Cadence Virtuoso, gpdk090 nmos1v | Positive phase shift from about 1.18° to 90.66° at 10 kHz |
+| 05 | [**Bandgap Reference Circuit**](#project-05-bandgap) | Analog reference design | Cadence Virtuoso, gpdk090 | 1.45 V reference with about 14.2 ppm/°C temperature coefficient |
+| 06 | [**CMOS Inverter Layout**](#project-06-inverter) | Physical layout verification | Cadence Virtuoso Layout Suite, gpdk090, Assura | Custom layout passed DRC and LVS verification |
 
 ---
 
-# 01. MOSFET Characterization Suite
+<a id="project-01-demux"></a>
+
+# 01. 1:8 Analog Demultiplexer
+
+![Cadence](https://img.shields.io/badge/Tool-Cadence%20Virtuoso-blue)
+![PDK](https://img.shields.io/badge/PDK-gpdk090-green)
+![Architecture](https://img.shields.io/badge/Architecture-CMOS%20Transmission%20Gate-00B8D9)
+![Routing](https://img.shields.io/badge/Routing-8%2F8%20Verified-brightgreen)
+![RON](https://img.shields.io/badge/Worst--Case%20RON-24.51%20Ohm-orange)
+![Status](https://img.shields.io/badge/Status-Completed-success)
 
 ## Summary
 
-The MOSFET Characterization Suite analyzes NMOS and PMOS transistor behavior using the TSMC 180nm BSIM3 model in LTspice. The purpose of this project is to build a practical design reference for analog circuit sizing, biasing, gain estimation, and gm/Id-based design.
+This project implements a **1:8 analog demultiplexer** in Cadence Virtuoso using a hierarchical CMOS transmission-gate architecture. The complete DEMUX is formed by cascading **seven 1:2 DEMUX cells** in a three-stage `1 → 2 → 4` binary tree. Each 1:2 cell contains two CMOS transmission gates, and each transmission gate uses one NMOS and one PMOS in parallel.
 
-Instead of depending only on textbook MOSFET equations, this project extracts useful transistor behavior directly from simulation.
+Three select inputs, `S2`, `S1`, and `S0`, route one analog input `VIN` to exactly one of eight outputs `Y0`–`Y7`. External `0 V / 2 V` logic is behaviorally converted to complementary `±4 V` transmission-gate controls.
 
-## What Was Done
+## Architecture
 
-- Swept **Id vs Vgs** to observe threshold behavior.
-- Swept **Id vs Vds** to identify triode and saturation regions.
-- Plotted **gm vs Vgs** to study transconductance behavior.
-- Plotted **gm/Id vs Vgs** for low-power and high-speed bias selection.
-- Used operating-point extraction to observe small-signal parameters.
+```text
+VIN
+ |
+ I0 (S2)
+ |-------------------|
+I1 (S1)            I2 (S1)
+|------|            |------|
+I3    I4            I5    I6   (S0)
+| |    | |           | |    | |
+Y0 Y1  Y2 Y3         Y4 Y5  Y6 Y7
+```
 
-## Key Results
+- **7 × 1:2 DEMUX cells**
+- **14 transmission gates**
+- **28 MOSFETs total**
+- **3 transmission gates in every selected analog path**
 
-| Parameter | NMOS | PMOS |
-| --- | --- | --- |
-| Approx. threshold voltage | 0.35 V | 0.42 V |
-| Peak gm | 4.0 mA/V | 2.2 mA/V |
-| gm/Id range | ~27 V⁻¹ to ~4 V⁻¹ | Similar gm/Id trend |
-| Technology | TSMC 180nm BSIM3 | TSMC 180nm BSIM3 |
+## Main Verification Results
 
-## Design Insight
+| Criterion | Requirement | Achieved |
+| --- | ---: | ---: |
+| Supply voltage | ±4 V | ±4 V |
+| Logic HIGH / LOW | 2 V / 0 V | 2 V / 0 V |
+| Analog signal range | -3.5 V to +3.5 V | Full range verified |
+| ON resistance | 10–25 Ω | **24.51 Ω worst case** |
+| Input capacitance | 50–65 pF | **55.07 pF** |
+| Turn-ON time | ≤120 ns @ 1 kΩ ∥ 10 pF | **0.591 ns** |
+| Charge injection | ≤20 pC | **0.287 pC worst case** |
+| Simulated core/rail power | ≤25 mW | **≈1.80 µW*** |
+| -3 dB bandwidth | >1.2 MHz accepted fallback | **>1 GHz** |
+| Functional routing | Correct Y0–Y7 selection | **All 8 codes verified** |
 
-This project shows why transistor characterization is important before designing amplifiers or analog blocks. The gm/Id plot helps select whether the circuit should operate in a low-power region, moderate-inversion region, or high-speed strong-inversion region.
+\* The measured power is the schematic-level transmission-gate/core rail power with ideal VCVS control conversion. A practical transistor-level level shifter would increase total power.
 
----
+## Main Learning Outcome
 
-# 02. Voltage-Controlled Phase Shifter
+This project demonstrates hierarchical analog design using CMOS transmission gates and shows how **ON resistance, capacitive loading, switching time, charge injection, bandwidth, and output loading** interact in a practical analog switching network. Separate DC, AC, and transient simulations were used to verify each electrical requirement rather than relying on a single testbench.
 
-## Summary
-
-This project implements a voltage-controlled positive phase shifter using a first-order active all-pass filter structure. The circuit uses a VCVS-based active amplifier and a gpdk090 NMOS transistor as a voltage-controlled resistor.
-
-The target was to control the phase shift from approximately 0° to 90° using a control voltage from 0 V to 1 V.
-
-## Circuit Concept
-
-An all-pass filter was selected because it changes the phase of a signal while keeping the gain almost constant. The final design was modified from an initial negative-phase topology to a positive-phase topology so that the output leads the input.
-
-## Final Design Values
-
-| Component / Parameter | Final Value |
-| --- | --- |
-| Circuit type | Positive first-order active all-pass phase shifter |
-| Active element | VCVS, gain = 100k |
-| NMOS model | gpdk90 nmos1v |
-| NMOS W/L | 1.2 µm / 1 µm |
-| R1, R2 | 100 kΩ, 100 kΩ |
-| C0 | 100 pF |
-| Rseries | 153 kΩ |
-| Rbias | 100 MΩ |
-| Control voltage | 0 V to 1 V |
-| Design frequency | 10 kHz |
-
-## Main Result
-
-| Vctrl | Phase Shift at 10 kHz |
-| --- | --- |
-| 0 V | ~1.18° |
-| 1 V | ~90.66° |
-
-The gain remained close to 0 dB, confirming the all-pass behavior of the circuit.
-
-## Important Note
-
-A supply-powered op-amp implementation was attempted, but the Cadence/Spectre environment produced an AHDL compile error for the `ahdlLib` op-amp model. Therefore, the final verified simulation used the VCVS model.
+[⬆ Back to Project Dashboard](#project-dashboard)
 
 ---
+<a id="project-02-classifier"></a>
 
-# 03. Bandgap Reference Circuit
-
-## Summary
-
-This project designs and simulates a 1.45 V bandgap reference circuit in Cadence Virtuoso using the gpdk090 PDK. The goal was to generate a stable reference voltage over temperature by combining CTAT and PTAT voltage behavior.
-
-The design uses a PMOS current mirror, PNP bipolar devices, resistor tuning, and an ideal VCVS-based op-amp.
-
-## Design Concept
-
-A bandgap reference works by adding two temperature-dependent terms:
-
-- **CTAT voltage**: BJT VBE decreases as temperature increases.
-- **PTAT voltage**: ΔVBE increases as temperature increases.
-
-By balancing these two slopes, the output voltage becomes nearly constant over temperature.
-
-## Final Design Summary
-
-| Block / Parameter | Final Value |
-| --- | --- |
-| Supply voltage | 3.3 V |
-| Core resistors | R1 = 1 kΩ, R2 = 6.85 kΩ |
-| BJT multiplier ratio | 1 : 10 : 1 |
-| PMOS size | W = 2.4 µm, L = 500 nm |
-| Ideal op-amp gain | 100000 |
-| Output scaling stage | Non-inverting gain stage |
-| Gain-stage resistors | Rg = 100 kΩ, Rf = 24 kΩ |
-
-## Main Result
-
-| Parameter | Result |
-| --- | --- |
-| Final VREF range | ~1.4486 V to ~1.4520 V |
-| Nominal reference voltage | ~1.45 V |
-| Temperature range | -40°C to 125°C |
-| Estimated temperature coefficient | ~14.2 ppm/°C |
-
-The design satisfies the required 1.4 V to 1.5 V output range and the 10 ppm/°C to 17 ppm/°C temperature coefficient target.
-
----
-
-# 04. CMOS Inverter Layout
-
-## Summary
-
-This project completes the custom physical layout of a CMOS inverter in Cadence Virtuoso using gpdk090 devices. The project includes schematic design, manual layout design, pin creation, body connection, DRC verification, and LVS verification.
-
-The layout was verified using Assura DRC and Assura LVS.
-
-## Design Details
-
-| Item | Details |
-| --- | --- |
-| Circuit | CMOS inverter |
-| PMOS device | pmos1v |
-| NMOS device | nmos1v |
-| PMOS width | 480 nm |
-| NMOS width | 240 nm |
-| Channel length | 100 nm |
-| Layout pins | A, Y, VDD, VSS |
-| Verification tool | Assura DRC and Assura LVS |
-
-## Layout Flow
-
-- Created the CMOS inverter schematic.
-- Placed PMOS at the top and NMOS at the bottom.
-- Connected PMOS source/body to VDD.
-- Connected NMOS source/body to VSS.
-- Connected PMOS and NMOS drains together as output Y.
-- Connected both gates together as input A.
-- Added layout pins matching the schematic pin names.
-- Ran DRC and LVS verification.
-
-## Final Verification Result
-
-| Verification | Result |
-| --- | --- |
-| DRC | Passed, no DRC errors found |
-| LVS | Passed, schematic and layout matched |
-| Net mismatches | 0 |
-| Device mismatches | 0 |
-| Pin mismatches | 0 |
-| Parameter mismatches | 0 |
-
-This confirms that the final layout is both physically valid and electrically equivalent to the schematic.
-
----
-
-# 05. Low-Power CMOS Multi-Sensor Threshold Classifier
+# 02. Low-Power CMOS Multi-Sensor Threshold Classifier
 
 ![Tool](https://img.shields.io/badge/Tool-Cadence%20Virtuoso-blue)
 ![PDK](https://img.shields.io/badge/PDK-GPDK%2090nm-lightgrey)
@@ -322,12 +238,190 @@ The first DRC run failed with three errors related to spacing/width rules. The e
 
 This project shows how a multi-input weighted decision can be implemented using only transistor-level CMOS sizing and threshold behavior. It also strengthens the complete physical design flow: schematic, layout, DRC, LVS, RCX, and power analysis.
 
+[⬆ Back to Project Dashboard](#project-dashboard)
+
+---
+<a id="project-03-mosfet"></a>
+
+# 03. MOSFET Characterization Suite
+
+## Summary
+
+The MOSFET Characterization Suite analyzes NMOS and PMOS transistor behavior using the TSMC 180nm BSIM3 model in LTspice. The purpose of this project is to build a practical design reference for analog circuit sizing, biasing, gain estimation, and gm/Id-based design.
+
+Instead of depending only on textbook MOSFET equations, this project extracts useful transistor behavior directly from simulation.
+
+## What Was Done
+
+- Swept **Id vs Vgs** to observe threshold behavior.
+- Swept **Id vs Vds** to identify triode and saturation regions.
+- Plotted **gm vs Vgs** to study transconductance behavior.
+- Plotted **gm/Id vs Vgs** for low-power and high-speed bias selection.
+- Used operating-point extraction to observe small-signal parameters.
+
+## Key Results
+
+| Parameter | NMOS | PMOS |
+| --- | --- | --- |
+| Approx. threshold voltage | 0.35 V | 0.42 V |
+| Peak gm | 4.0 mA/V | 2.2 mA/V |
+| gm/Id range | ~27 V⁻¹ to ~4 V⁻¹ | Similar gm/Id trend |
+| Technology | TSMC 180nm BSIM3 | TSMC 180nm BSIM3 |
+
+## Design Insight
+
+This project shows why transistor characterization is important before designing amplifiers or analog blocks. The gm/Id plot helps select whether the circuit should operate in a low-power region, moderate-inversion region, or high-speed strong-inversion region.
+
+[⬆ Back to Project Dashboard](#project-dashboard)
+
+---
+<a id="project-04-phase"></a>
+
+# 04. Voltage-Controlled Phase Shifter
+
+## Summary
+
+This project implements a voltage-controlled positive phase shifter using a first-order active all-pass filter structure. The circuit uses a VCVS-based active amplifier and a gpdk090 NMOS transistor as a voltage-controlled resistor.
+
+The target was to control the phase shift from approximately 0° to 90° using a control voltage from 0 V to 1 V.
+
+## Circuit Concept
+
+An all-pass filter was selected because it changes the phase of a signal while keeping the gain almost constant. The final design was modified from an initial negative-phase topology to a positive-phase topology so that the output leads the input.
+
+## Final Design Values
+
+| Component / Parameter | Final Value |
+| --- | --- |
+| Circuit type | Positive first-order active all-pass phase shifter |
+| Active element | VCVS, gain = 100k |
+| NMOS model | gpdk90 nmos1v |
+| NMOS W/L | 1.2 µm / 1 µm |
+| R1, R2 | 100 kΩ, 100 kΩ |
+| C0 | 100 pF |
+| Rseries | 153 kΩ |
+| Rbias | 100 MΩ |
+| Control voltage | 0 V to 1 V |
+| Design frequency | 10 kHz |
+
+## Main Result
+
+| Vctrl | Phase Shift at 10 kHz |
+| --- | --- |
+| 0 V | ~1.18° |
+| 1 V | ~90.66° |
+
+The gain remained close to 0 dB, confirming the all-pass behavior of the circuit.
+
+## Important Note
+
+A supply-powered op-amp implementation was attempted, but the Cadence/Spectre environment produced an AHDL compile error for the `ahdlLib` op-amp model. Therefore, the final verified simulation used the VCVS model.
+
+[⬆ Back to Project Dashboard](#project-dashboard)
+
+---
+<a id="project-05-bandgap"></a>
+
+# 05. Bandgap Reference Circuit
+
+## Summary
+
+This project designs and simulates a 1.45 V bandgap reference circuit in Cadence Virtuoso using the gpdk090 PDK. The goal was to generate a stable reference voltage over temperature by combining CTAT and PTAT voltage behavior.
+
+The design uses a PMOS current mirror, PNP bipolar devices, resistor tuning, and an ideal VCVS-based op-amp.
+
+## Design Concept
+
+A bandgap reference works by adding two temperature-dependent terms:
+
+- **CTAT voltage**: BJT VBE decreases as temperature increases.
+- **PTAT voltage**: ΔVBE increases as temperature increases.
+
+By balancing these two slopes, the output voltage becomes nearly constant over temperature.
+
+## Final Design Summary
+
+| Block / Parameter | Final Value |
+| --- | --- |
+| Supply voltage | 3.3 V |
+| Core resistors | R1 = 1 kΩ, R2 = 6.85 kΩ |
+| BJT multiplier ratio | 1 : 10 : 1 |
+| PMOS size | W = 2.4 µm, L = 500 nm |
+| Ideal op-amp gain | 100000 |
+| Output scaling stage | Non-inverting gain stage |
+| Gain-stage resistors | Rg = 100 kΩ, Rf = 24 kΩ |
+
+## Main Result
+
+| Parameter | Result |
+| --- | --- |
+| Final VREF range | ~1.4486 V to ~1.4520 V |
+| Nominal reference voltage | ~1.45 V |
+| Temperature range | -40°C to 125°C |
+| Estimated temperature coefficient | ~14.2 ppm/°C |
+
+The design satisfies the required 1.4 V to 1.5 V output range and the 10 ppm/°C to 17 ppm/°C temperature coefficient target.
+
+[⬆ Back to Project Dashboard](#project-dashboard)
+
+---
+<a id="project-06-inverter"></a>
+
+# 06. CMOS Inverter Layout
+
+## Summary
+
+This project completes the custom physical layout of a CMOS inverter in Cadence Virtuoso using gpdk090 devices. The project includes schematic design, manual layout design, pin creation, body connection, DRC verification, and LVS verification.
+
+The layout was verified using Assura DRC and Assura LVS.
+
+## Design Details
+
+| Item | Details |
+| --- | --- |
+| Circuit | CMOS inverter |
+| PMOS device | pmos1v |
+| NMOS device | nmos1v |
+| PMOS width | 480 nm |
+| NMOS width | 240 nm |
+| Channel length | 100 nm |
+| Layout pins | A, Y, VDD, VSS |
+| Verification tool | Assura DRC and Assura LVS |
+
+## Layout Flow
+
+- Created the CMOS inverter schematic.
+- Placed PMOS at the top and NMOS at the bottom.
+- Connected PMOS source/body to VDD.
+- Connected NMOS source/body to VSS.
+- Connected PMOS and NMOS drains together as output Y.
+- Connected both gates together as input A.
+- Added layout pins matching the schematic pin names.
+- Ran DRC and LVS verification.
+
+## Final Verification Result
+
+| Verification | Result |
+| --- | --- |
+| DRC | Passed, no DRC errors found |
+| LVS | Passed, schematic and layout matched |
+| Net mismatches | 0 |
+| Device mismatches | 0 |
+| Pin mismatches | 0 |
+| Parameter mismatches | 0 |
+
+This confirms that the final layout is both physically valid and electrically equivalent to the schematic.
+
+[⬆ Back to Project Dashboard](#project-dashboard)
+
 ---
 
 ## Skills Demonstrated
 
 | Skill Area | Demonstrated Through |
 | --- | --- |
+| Analog switching | 1:8 CMOS transmission-gate DEMUX, hierarchical routing, ON-resistance, bandwidth and charge-injection verification |
+| Low-power classification | Weighted transistor-level multi-sensor threshold classifier with post-layout verification |
 | MOSFET characterization | Id-Vgs, Id-Vds, gm, gm/Id and operating-point analysis |
 | Analog circuit design | Phase shifter and bandgap reference design |
 | Biasing and sizing | NMOS resistor tuning, PMOS mirror sizing, resistor-ratio tuning |
@@ -343,6 +437,17 @@ This project shows how a multi-input weighted decision can be implemented using 
 
 ```text
 .
+├── 1_to_8_Analog_Demultiplexer/
+│   ├── cadence_files/
+│   ├── images/
+│   └── report/
+│
+├── Low_Power_CMOS_Multi_Sensor_Threshold_Classifier/
+│   ├── cadence_files/
+│   │   └── ai_classifier_v2.zip
+│   ├── images/
+│   └── report/
+│
 ├── MOSFET_Characterization_Suite/
 │   ├── NMOS/
 │   ├── PMOS/
@@ -364,12 +469,6 @@ This project shows how a multi-input weighted decision can be implemented using 
 │   ├── images/
 │   └── report/
 │
-├── Low_Power_CMOS_Multi_Sensor_Threshold_Classifier/
-│   ├── cadence_files/
-│   │   └── ai_classifier_v2.zip
-│   ├── images/
-│   └── report/
-│
 └── README.md
 ```
 
@@ -387,17 +486,20 @@ This project shows how a multi-input weighted decision can be implemented using 
 
 | Project | Required Tool / Setup |
 | --- | --- |
+| 1:8 Analog Demultiplexer | Cadence Virtuoso with gpdk090, Spectre/ADE and ViVA |
+| Low-Power CMOS Multi-Sensor Threshold Classifier | Cadence Virtuoso with gpdk090, Spectre/ADE, ViVA, Assura DRC/LVS/RCX |
 | MOSFET Characterization Suite | LTspice 26 with TSMC 180nm BSIM3 model files |
 | Voltage-Controlled Phase Shifter | Cadence Virtuoso with gpdk090 |
 | Bandgap Reference Circuit | Cadence Virtuoso with gpdk090 |
 | CMOS Inverter Layout | Cadence Virtuoso Layout Suite with gpdk090 and Assura |
-| Low-Power CMOS Multi-Sensor Threshold Classifier | Cadence Virtuoso with gpdk090, Spectre/ADE, ViVA, Assura DRC/LVS/RCX |
 
 ---
 
 ## Future Improvements
 
-- Replace ideal VCVS blocks with transistor-level op-amp designs.
+- Replace the DEMUX ideal VCVS control conversion with a transistor-level CMOS level shifter and voltage-rated devices.
+- Add layout, DRC/LVS/RCX, PVT and post-layout verification for the 1:8 analog DEMUX.
+- Replace ideal VCVS blocks in the other analog circuits with transistor-level op-amp designs.
 - Add process-corner and Monte Carlo analysis for the analog circuits.
 - Add layout implementation for the bandgap reference and phase shifter.
 - Perform post-layout simulation after parasitic extraction.
@@ -409,6 +511,6 @@ This project shows how a multi-input weighted decision can be implemented using 
 
 ## Conclusion
 
-These five projects together form a compact Analog IC and VLSI design portfolio. They demonstrate practical understanding of MOSFET behavior, analog signal processing, reference circuit design, CMOS physical layout verification, and transistor-level multi-input decision-circuit design.
+These six projects together form a compact Analog IC and VLSI design portfolio. They demonstrate practical understanding of CMOS analog switching, low-power transistor-level classification, MOSFET behavior, analog signal processing, reference circuit design, and CMOS physical layout verification.
 
-The work shows a complete learning progression from device-level simulation to circuit-level design and finally to layout-level verification, including DRC, LVS, RCX extraction, and power analysis.
+The work shows a learning progression from device-level characterization and schematic-level analog design to hierarchical switching networks and layout-level verification, including DRC, LVS, RCX extraction, timing behavior, and power analysis.
