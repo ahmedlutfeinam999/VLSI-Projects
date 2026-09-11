@@ -131,7 +131,3 @@ The resulting extracted-view screenshot shows device and parasitic-component rep
 ![Generated extracted view](images/17-extracted-view.png)
 
 **Scope completed:** schematic → functional tests → layout → DRC clean → LVS match → extracted view. Post-layout simulation, numerical timing/power comparison, and PVT/Monte Carlo analysis remain outside this project record.
-
-## Repository contents
-
-`README.md` documents the workflow; `images/` contains the original screenshots used at each stage. Keep both together when uploading to GitHub. This documentation package does not include Cadence cellviews, the PDK, or rule decks.
