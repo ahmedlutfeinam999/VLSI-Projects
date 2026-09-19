@@ -10,8 +10,6 @@ The final design produces approximately **1.45 V** and achieves an estimated tem
 
 | Item | Information |
 |---|---|
-| Student | Ahmed Lutfe Inam |
-| Course | Analog Integrated Electronics |
 | Software | Cadence Virtuoso |
 | Technology / PDK | gpdk090 |
 | Target VREF | 1.4 V to 1.5 V |
