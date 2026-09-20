@@ -2,7 +2,7 @@
 
 Schematic design, functional verification, custom layout, DRC closure, LVS, and RC parasitic extraction of a single-bit 6T SRAM cell.
 
-**Results:** write/hold and read tests demonstrated; **DRC: no errors**; **LVS: schematic and layout match**; extracted view generated. **Post-layout simulation was not performed.**
+**Results:** write/hold and read tests demonstrated; **DRC: no errors**; **LVS: schematic and layout match**; extracted view and RC netlist generated (**68 resistors, 224 capacitors**). **Post-layout simulation was not performed.**
 
 ## Tools and design
 
@@ -122,7 +122,7 @@ Opened the Assura Parasitic Extraction Run Form using **GPDK090 / default**, sel
 
 ![Extraction setup and extracted-view output](images/15-extraction-setup.png)
 
-The captured options show **Decoupled**, **25°C**, and reference node **vss**. Matching the actual **VSS** terminal, using **27°C** for comparison with earlier runs, and preserving coupling were discussed afterward; the final settings/log were not captured, so those changes are not claimed here.
+The captured options show **Decoupled**, **25°C**, and reference node **vss**. Matching the actual **VSS** terminal, using **27°C** for comparison with earlier runs, and preserving coupling were discussed afterward; the final extraction settings/log were not captured. The subsequently generated netlist confirms inter-net coupling capacitors are present and specifies a Spectre simulation temperature of **27°C**; this does not establish the extraction temperature.
 
 ![Captured extraction options](images/16-extraction-options.png)
 
@@ -130,4 +130,28 @@ The resulting extracted-view screenshot shows device and parasitic-component rep
 
 ![Generated extracted view](images/17-extracted-view.png)
 
-**Scope completed:** schematic → functional tests → layout → DRC clean → LVS match → extracted view. Post-layout simulation, numerical timing/power comparison, and PVT/Monte Carlo analysis remain outside this project record.
+### Extracted RC values
+
+Generated a Spectre netlist from **`6T_SRAM / SRAM_Read_Test / av_extracted`** and inspected its explicit parasitic components.
+
+| Component | Count | Minimum individual value | Maximum individual value |
+|---|---:|---:|---:|
+| Parasitic resistors | **68** | **0.001481 Ω** (`ri23`) | **30.0742 Ω** (`rj4`) |
+| Parasitic capacitors | **224** | **0.00001791 fF** (`c214`, `c215`) | **0.1787 fF** (`c153`) |
+| MOSFETs | **6** | 2 PMOS + 4 NMOS | W = 120 nm, L = 100 nm |
+
+Representative entries (node escape characters omitted for readability):
+
+| Instance | Connected nodes | Extracted value |
+|---|---|---:|
+| `rh10` | `BL` ↔ `1:BL` | 2.4183 Ω |
+| `rj4` | `3:Q` ↔ `4:Q` | 30.0742 Ω |
+| `c50` | `9:Q` ↔ `1:VSS` | 0.1008 fF |
+| `c153` | `2:VDD` ↔ `1:VSS` | 0.1787 fF |
+| `c1` | `WL` ↔ `BLbar` | 0.006487 fF |
+
+In the netlist, resistor `r=` values are in ohms and capacitor `c=` values are in farads (**1 fF = 10⁻¹⁵ F**). Numbered nodes such as `9:Q` represent extracted interconnect segments. Capacitors between different signal nets, such as `c1`, confirm that coupling is represented. The `c=0` parameter on resistor entries does not remove the separately listed capacitors.
+
+These are **individual extracted element values**, not a single equivalent resistance or capacitance for the SRAM. Equivalent resistance depends on the selected path; effective capacitive loading depends on connectivity and switching. Device-model capacitances are not included in the count of explicit parasitic capacitors. Netlist generation confirms the RC network is available; **post-layout simulation was not performed**.
+
+**Scope completed:** schematic → functional tests → layout → DRC clean → LVS match → extracted view → RC netlist inspection. Post-layout simulation, numerical timing/power comparison, and PVT/Monte Carlo analysis remain outside this project record.
